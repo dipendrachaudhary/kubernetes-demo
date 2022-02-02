@@ -1,0 +1,25 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: multiple-container
+spec:
+  containers:
+  - name: mc1
+    image: ubuntu
+    command: ["/bin/bash", "-c", "while true; do echo test; sleep 5; done"]
+        #ports:
+        #- containerPort: 80
+  - name: mc2
+    image: httpd
+    ports:
+     - containerPort: 80 
+  - name: redis
+    image: redis:5.0.4
+    command:
+      - redis-server
+      - "/redis-master/redis.conf"
+    env:
+    - name: MASTER
+      value: "true"
+    ports:
+    - containerPort: 6379     
